@@ -2,16 +2,19 @@
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld msg="어서오세요 Vue를 함께 배워봅시다"/>
+    <Interest/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import HelloWorld from './components/HelloWorld.vue'  
+import Interest from './components/Interest.vue'  
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    HelloWorld,
+    Interest
   }
 }
 </script>
