@@ -8,7 +8,7 @@
                 만원)
             </span>
         </div>
-        <input  v-model="예치금액" type="number" class="form-control text-center" placeholder="예치하실 금액을 만원 단위로 입력하세요">
+        <input  v-model="예치금액" type="number" name="예치금액" class="form-control text-center" placeholder="예치하실 금액을 만원 단위로 입력하세요">
     </div>
     <div class="input-group">
         <div class="input-group-prepend">
@@ -17,7 +17,7 @@
                 개월)
             </span>
         </div>
-        <input  v-model="예치기간" type="number" class="form-control text-center" placeholder="예치하실 기간을 개월 단위로 입력하세요">
+        <input  v-model="예치기간" type="number" name="예치기간" class="form-control text-center" placeholder="예치하실 기간을 개월 단위로 입력하세요">
     </div>
 
     <div class="input-group">
@@ -31,7 +31,7 @@
                 </div>
             </span>
         </div>
-        <input  v-model="이자율" type="number" class="form-control text-center" placeholder="적용할 이자율을 % 단위로 입력하세요">
+        <input  v-model="이자율" type="number" name="이자율" class="form-control text-center" placeholder="적용할 이자율을 % 단위로 입력하세요">
     </div>
     <hr>
     <div class="card">
@@ -45,12 +45,12 @@
                 <tbody>
                     <tr>
                         <td>일반 (15.4%)</td>
-                        <td>{{ Number(예치금액 * 예치기간).toLocaleString() }}</td>
+                        <td>{{ 만기지급액 }}</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>세금우대 (9.5%)</td>
-                        <td>{{ Number(예치금액 * 예치기간).toLocaleString() }}</td>
+                        <td>{{ 만기지급액 }}</td>
                         <td></td>
                     </tr>
                     <tr>
@@ -72,7 +72,12 @@ export default {
         return {
             예치금액: null,
             예치기간: null,
-            이자율: null
+            이자율: null,
+        }
+    },
+    computed: {
+        만기지급액: function () {
+            return Number(parseInt(this.예치금액 * ((1 + this.이자율/100/12) ** this.예치기간) * 10000)).toLocaleString()
         }
     }
 }
