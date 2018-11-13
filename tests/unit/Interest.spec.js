@@ -5,7 +5,13 @@ import moxios from 'moxios'
 
 describe('목돈마련 계산기', () => {
     let wrapper
-    wrapper = shallowMount(Interest)
+    beforeEach(() => {
+        moxios.install()
+        wrapper = shallowMount(Interest)
+    })
+    afterEach(() => {
+        moxios.uninstall()
+    })
     it('제목은 목독마련 계산기', () => {
         expect(wrapper.text()).to.include('목돈마련 계산기')
     })
@@ -15,7 +21,6 @@ describe('목돈마련 계산기', () => {
         expect(wrapper.vm.이자율).to.equal(null)
     })
     it('만기지급액 계산에 필요한 변수의 값이 정해 지면 만기지급액이 자동으로 계산되어야 한다.', (done) => {
-        moxios.install()
         let node1 = wrapper.find('input[name=예치금액]')
         node1.element.value = 100
         node1.trigger('input')
@@ -32,6 +37,14 @@ describe('목돈마련 계산기', () => {
             expect(wrapper.vm.만기지급액).to.equal('1,002,500')
             done()
         })
-        moxios.uninstall()
+    })
+    it('Reset 버튼이 필요하군', () => {
+        wrapper.setData({ 예치금액: 100, 예치기간: 12, 이자율: 3 })
+
+        let reset = wrapper.find('button.btn-block')
+        reset.trigger('click')
+        expect(wrapper.vm.예치금액).to.equal(null)
+        expect(wrapper.vm.예치기간).to.equal(null)
+        expect(wrapper.vm.이자율).to.equal(null)
     })
 })

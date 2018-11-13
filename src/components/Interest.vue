@@ -33,6 +33,10 @@
         </div>
         <input  v-model="이자율" type="number" name="이자율" class="form-control text-center" placeholder="적용할 이자율을 % 단위로 입력하세요">
     </div>
+    <div class="input-group">
+        <button type="button" class="btn btn-warning btn-block" v-on:click="reset">Reset</button>
+    </div>
+
     <hr>
     <div class="card">
         <div class="card-body">
@@ -78,6 +82,13 @@ export default {
     computed: {
         만기지급액: function () {
             return Number(parseInt(this.예치금액 * ((1 + this.이자율/100/12) ** this.예치기간) * 10000)).toLocaleString()
+        }
+    },
+    methods: {
+        reset: function () {
+            this.예치금액 = null
+            this.예치기간 = null
+            this.이자율 = null
         }
     }
 }
